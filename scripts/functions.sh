@@ -1,5 +1,38 @@
 #!/bin/bash
 
+symlink() {
+  OVERWRITTEN=""
+
+  if [ -e "$2" ] || [ -h "$2" ]; then
+    OVERWRITTEN="(Overwritten)"
+    if ! rm -r "$2"; then
+      substep_error "Failed to remove existing file(s) at $2."
+    fi
+  fi
+
+  if ln -s "$1" "$2"; then
+    substep_success "Symlink $2 to $1. $OVERWRITTEN"
+  else
+    substep_error "Symlinking $2 to $1 failed."
+  fi
+}
+
+clean_broken_symlink() {
+  Dst="$1"
+
+  # List symlinks in Dst directory and check if they are broken
+  fd --follow --type l . "$Dst" | while read -r fn; do
+    info "Symlink broken found on $fn"
+
+    # Remove the broken symlink in Dst
+    if rm "$fn"; then
+      substep_success "Removed broken symlink at $fn."
+    else
+      substep_error "Failed to remove broken symlink at $fn."
+    fi
+  done
+}
+
 coloredEcho() {
   local expr="$1"
   local color="$2"
@@ -39,4 +72,12 @@ substep_info() {
 
 info() {
     coloredEcho "$1" blue "========>"
+}
+
+substep_success() {
+    coloredEcho "$1" cyan "===="
+}
+
+substep_error() {
+    coloredEcho "$1" red "===="
 }
