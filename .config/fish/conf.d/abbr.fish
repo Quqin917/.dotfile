@@ -1,6 +1,5 @@
 # Folder navigation
 abbr -a c "cd ~/.config/"
-abbr -a h "cd"
 
 abbr -a ... "cd ../../"
 
@@ -11,6 +10,9 @@ abbr -a sp "sudo pacman "
 abbr -a pa "pacman "
 
 abbr -a y "yay "
+
+abbr -a ne "nix-env "
+abbr -a ns "nix-shell "
 
 # Git
 abbr -a g "git "
