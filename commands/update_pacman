@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Check for root privilage
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run as root"
+  exit
+fi
+
+echo "Starting Update... "
+
+sudo pacman -Syu --noconfirm
+
+# Send message to telegram bot
+if [ $? -eq 0 ]; then
+  send_message "Update Finish!"
+fi

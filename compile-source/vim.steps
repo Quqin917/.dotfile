@@ -1,0 +1,11 @@
+# install
+git clone https://github.com/vim/vim.git
+cd vim
+./configure --with-features=normal --disable-gui --with-x=/usr/include/X11 --without-wayland
+make
+sudo make install
+
+# update
+git stash push
+git pull
+git stash apply
