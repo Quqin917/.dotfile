@@ -1,6 +1,8 @@
 -- Deactivate lazyvim check order
 vim.g.lazyvim_check_order = false
 
+-- vim.cmd.colorscheme "catppuccin"
+
 -- Keeps the cursor centered
 vim.o.scrolloff = 15
 
@@ -39,7 +41,7 @@ opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
 -- clipboard
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+opt.clipboard:append "unnamedplus" -- use system clipboard as default register
 
 -- split windows
 opt.splitright = true -- split vertical window to the right
@@ -49,4 +51,4 @@ opt.splitbelow = true -- split horizontal window to the bottom
 opt.swapfile = false
 
 vim.o.undofile = true
-vim.o.undodir = vim.fn.stdpath("config") .. "/undo"
+vim.o.undodir = vim.fn.stdpath "config" .. "/undo"

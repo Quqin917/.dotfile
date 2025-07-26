@@ -70,9 +70,7 @@ local buffer_options = {
     return vim.trim(ret)
   end,
 
-  numbers = function(opts)
-    return opts.ordinal
-  end,
+  numbers = function(opts) return opts.ordinal end,
 
   offsets = buffers_offsets,
 }
@@ -89,9 +87,9 @@ return {
   keys = buffers_keys,
 
   config = function()
-    local bufferline = require("bufferline")
+    local bufferline = require "bufferline"
 
-    bufferline.setup({
+    bufferline.setup {
       options = {
         buffer_options,
 
@@ -101,7 +99,7 @@ return {
         },
       },
 
-      highlights = create_buffer_highlights(require("catppuccin")),
-    })
+      highlights = create_buffer_highlights(require "catppuccin"),
+    }
   end,
 }

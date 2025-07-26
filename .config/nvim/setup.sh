@@ -23,7 +23,6 @@ mkdir -vp "$DESTINATION/lua/quqin/core"
 mkdir -vp "$DESTINATION/lua/quqin/themes"
 mkdir -vp "$DESTINATION/lua/quqin/plugins"
 
-mkdir -vp "$DESTINATION/lua/quqin/plugins"
 mkdir -vp "$DESTINATION/lua/quqin/plugins/lsp"
 mkdir -vp "$DESTINATION/lua/quqin/plugins/art"
 mkdir -vp "$DESTINATION/lua/quqin/plugins/completions"
