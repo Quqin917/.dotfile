@@ -1,8 +1,6 @@
 -- Deactivate lazyvim check order
 vim.g.lazyvim_check_order = false
 
--- vim.cmd.colorscheme "catppuccin"
-
 -- Keeps the cursor centered
 vim.o.scrolloff = 15
 

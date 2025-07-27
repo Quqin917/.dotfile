@@ -4,6 +4,7 @@ return {
     name = "catppuccin",
     priority = 1000,
 
+    --@type CatppuccinOptions
     opts = {
       flavour = "mocha", -- latte, frappe, macchiato, mocha
       transparent_background = true,

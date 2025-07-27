@@ -2,6 +2,7 @@
 abbr -a c "cd ~/.config/"
 
 abbr -a ... "cd ../../"
+abbr -a l "ls -al"
 
 # Common command
 abbr -a clr "clear"

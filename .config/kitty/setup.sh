@@ -5,23 +5,21 @@ cd "$DIR" || exit
 
 . ../../scripts/functions.sh
 
-if ! which fish; then
-  error "Fish is not downloaded yet."
+if ! which kitty; then
+  error "Kitty is not downloaded yet."
   exit 5
 fi
 
 SOURCE="$(realpath .)"
-DESTINATION="$(realpath ~/.config/fish)"
+DESTINATION="$(realpath ~/.config/kitty)"
 
-info "Settings up fish shell..."
+info "Settings up kitty..."
 
 printf "SOURCE FILE:     \t\t %s\n" "$SOURCE"
 printf "DESTINATION FILE:\t\t %s\n" "$DESTINATION"
 
-substep_info "Creating Fish Config Folder"
-mkdir -vp "$DESTINATION/functions"
+substep_info "Creating kitty Config Folder"
 mkdir -vp "$DESTINATION/themes"
-mkdir -vp "$DESTINATION/conf.d"
 
 substep_info "Linking Fish Configuration..."
 fd --type f --exclude setup.sh | while read -r fn; do
