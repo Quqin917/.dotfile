@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e
+
+path="$PWD"
+
+while [[ $(realpath "$path") != / ]]; do
+  fd \
+    --search-path="$path" \
+    --absolute-path \
+    --exact-depth=1 \
+    "$@"
+
+  path="$(realpath --relative-to="$PWD" "$path"/..)"
+done

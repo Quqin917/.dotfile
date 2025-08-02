@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+TOKEN_TL="" # YOUR TELEGRAM BOT TOKEN
+ID_TL="" # YOUR TELEGRAM BOT ID
+
+# Help function
+if [ "$1" == "-h" ]; then
+  echo "Usage: $(basename $0) \"text_message\""
+  exit 0
+fi
+
+# Check available of argument
+if [ -z "$1" ]; then
+  echo "Add some argument, please"
+  exit 1
+fi
+
+# Check count of argument
+if [ "$#" -ne 1 ]; then
+  echo "You can only passed one argument. For string with spaces put quoted"
+  exit 2
+fi
+
+# Send Telegram Bot A Message
+curl -s -d "text=$1" -d "chat_id=$ID_TL" 'https://api.telegram.org/bot'$TOKEN_TL'/sendMessage' >/dev/null
+
