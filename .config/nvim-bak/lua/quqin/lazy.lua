@@ -15,9 +15,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-
 require("lazy").setup {
   spec = {
     -- Parent directory
@@ -31,7 +28,7 @@ require("lazy").setup {
   },
 
   -- Generated lazy-lock.json at the
-  lockfile = vim.fn.expand "~/.dotfile/.config/nvim" .. "/lazy-lock.json",
+  lockfile = vim.fn.expand "~/dotfiles/.config/nvim-bak" .. "/lazy-lock.json",
 
   checker = {
     enabled = true,
@@ -42,3 +39,5 @@ require("lazy").setup {
     notify = true,
   },
 }
+
+vim.cmd.colorscheme "catppuccin"

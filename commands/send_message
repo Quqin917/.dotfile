@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Goes to https://api.telegram.org/'$BOT'/getMe
+# Change the '$BOT' with the bot api token
+
 TOKEN_TL="" # YOUR TELEGRAM BOT TOKEN
 ID_TL="" # YOUR TELEGRAM BOT ID
 

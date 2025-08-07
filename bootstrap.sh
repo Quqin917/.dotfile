@@ -60,6 +60,8 @@ fi
 
 substep_info "Check if yay is installed"
 
+sudo pacman -S luarocks --noconfirm --needed
+
 # Run all the setup.sh files one by one
 fd --type f "setup.sh" . .config --exclude "packages" --exclude "commands" | while read -r step; do
     ./"$step"

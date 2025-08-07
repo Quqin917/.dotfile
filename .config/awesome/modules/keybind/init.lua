@@ -79,13 +79,8 @@ local globalkeys = gears.table.join(
 	end, { description = "open a terminal", group = "launcher" }),
 	awful.key({ modkey, "Control" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
 	awful.key({ modkey, "Shift" }, "q", awesome.quit, { description = "quit awesome", group = "awesome" }),
-	awful.key({ modkey }, "l", function()
-		awful.tag.incmwfact(0.05)
-	end, { description = "increase master width factor", group = "layout" }),
 
-	awful.key({ modkey }, "h", function()
-		awful.tag.incmwfact(-0.05)
-	end, { description = "decrease master width factor", group = "layout" }),
+	-- Layout Group
 	awful.key({ modkey, "Shift" }, "h", function()
 		awful.tag.incnmaster(1, nil, true)
 	end, { description = "increase the number of master clients", group = "layout" }),
@@ -98,6 +93,23 @@ local globalkeys = gears.table.join(
 	awful.key({ modkey, "Control" }, "l", function()
 		awful.tag.incncol(-1, nil, true)
 	end, { description = "decrease the number of columns", group = "layout" }),
+
+
+	awful.key({ modkey, "Shift" }, "Right", function()
+		awful.tag.incmwfact(0.05)
+	end, { description = "Resize Left", group = "layout" }),
+
+	awful.key({ modkey, "Shift" }, "Left", function()
+		awful.tag.incmwfact(-0.05)
+	end, { description = "Resize Right", group = "layout" }),
+
+	awful.key({ modkey, "Shift" }, "Down", function()
+		awful.client.incwfact(0.05)
+	end, { description = "Resize Downward", group = "layout" }),
+
+	awful.key({ modkey, "Shift" }, "Up", function()
+		awful.client.incwfact(-0.05)
+	end, { description = "Resize Uppward", group = "layout" }),
 
 	awful.key({ modkey }, "space", function()
 		awful.layout.inc(1)

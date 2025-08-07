@@ -68,23 +68,7 @@ local clientkeys = gears.table.join(
 	awful.key({ modkey, "Shift" }, "m", function(c)
 		c.maximized_horizontal = not c.maximized_horizontal
 		c:raise()
-	end, { description = "(un)maximize horizontally", group = "client" }),
-
-	awful.key({ modkey, "Shift" }, "Down", function()
-		awful.tag.incmwfact(0.01)
-	end, { description = "Resize Downward", group = "size" }),
-
-	awful.key({ modkey, "Shift" }, "Up", function()
-		awful.tag.incmwfact(-0.01)
-	end, { description = "Resize Uppward", group = "size" }),
-
-	awful.key({ modkey, "Shift" }, "Left", function()
-		awful.client.incwfact(0.01)
-	end, { description = "Resize Left", group = "size" }),
-
-	awful.key({ modkey, "Shift" }, "Right", function()
-		awful.client.incwfact(-0.01)
-	end, { description = "Resize Right", group = "size" })
+	end, { description = "(un)maximize horizontally", group = "client" })
 )
 
 return clientkeys

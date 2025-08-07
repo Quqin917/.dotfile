@@ -1,20 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 DIR=$(realpath "$HOME/compile-source")
 
 get-step-block() {
   local activity="$1"
   local filename="$2"
-  local gitTurnOn="$3"
+  local git="$3"
 
   if [ "$activity" == "update" ]; then
     fetchCMD=$(git status --porcelain)
 
     if [ -n "$fetchCMD" ]; then
-      gitTurnOn=1
+      git=1
     else
       info "No Changes has been done"
-      gitTurnOn=0
+      git=0
     fi
   fi
 
@@ -33,13 +33,13 @@ get-step-block() {
       continue
     fi
 
-    # If activity is install, Skip git command if gitTurnOn is 0
-    if [[ "$gitTurnOn" -eq 0 && "$step" =~ .*clone.* ]]; then
+    # If activity is install, Skip git clone command if git is 0
+    if [[ "$activity" == "install" && "$git" -eq 0 && "$step" =~ .*clone.* ]]; then
       continue
     fi
 
-    # If activity is update and there are no updates, skip stash steps
-    if [[ "$gitTurnOn" -eq 0 && "$step" =~ .*"stash".* ]]; then
+    # If activity is update and git is disable, then skip stash steps
+    if [[ "$activity" == "update" && "$git" -eq 0 && "$step" =~ .*"stash".* ]]; then
       continue
     fi
 
@@ -69,10 +69,53 @@ check-update() {
   fi
 }
 
-. "$HOME/Dev/.dotfile/scripts/functions.sh"
+installSource() {
+  local folder="$1"
+  local fn="$2"
+  local application="$3"
 
-if [[ $# -ne 1 ]]; then
-  error "Illegal, argument should be 1"
+  substep_info "Working Directory $PWD"
+
+  if [[ $command == "install" && "$(which $application)" ]]; then
+    success "$application has been $command"
+	return
+  fi
+
+  git=0
+  if [ -d "$folder" ] || [ "$command" == "update" ]; then
+    cd "$folder" || { error "Directory doesn't exists. Please Install Applications"; exit 1; }
+  else
+    git=1
+  fi
+
+  if [ "$command" == "update" ]; then
+    check-update 
+
+    status=$?
+    if [[ $status -eq 0 ]]; then 
+      get-step-block "$command" "$fn" "$git"
+    else
+      cd .. || exit
+    fi
+
+  else
+    get-step-block "$command" "$fn" "$git"
+  fi
+
+  if [[ $command == "install" && ! "$(which $application)" ]]; then
+    error "$application has failed to be $command"
+  fi
+
+  cd .. || exit
+}
+
+. "$(dirname $0)/../scripts/functions.sh"
+
+if [[ $# < 1 ]]; then
+  error "Illegal, argument should be more than 1"
+  exit 1
+elif [[ $# > 2 ]]; then
+  error "Illegal, argument should be less or equal to 2"
   exit 1
 fi
 
@@ -91,42 +134,43 @@ fi
 
 cd "$DIR" || exit
 
+# If User want to specify applications
+if [[ $# -eq 2 ]]; then
+  # Application that are supported in this script
+  supportedFromSource=("neovim" "vim")
+
+  nameApplication=""
+  for app in "${supportedFromSource[@]}"; do
+    if [[ "$2" == "$app" ]]; then
+      # Changes neovim names to be nvim
+	  if [[ "$2" == "neovim" ]]; then
+		nameApplication="nvim"
+      else
+		nameApplication="$2"
+	  fi
+
+      installSource "$2" "${2}.steps" "$nameApplication"
+	  exit 0
+	fi
+  done
+
+  error "Applications is not supported by script"
+  exit 1
+fi
+
+# If User want to install all applications as one
 fd '.steps' --max-depth 1 | while read -r fn; do
   folder="${fn%%.*}"
-  set -- "$folder"
+  nameApplication=""
 
-  gitTurnOn=0
-  if [ -d "$1" ] || [ "$command" == "update" ]; then
-    cd "$1" || { substep_error "Directory doesn't exist when updating."; exit 1; }
+  # Changes neovim names to be nvim
+  if [[ "$folder" == "neovim" ]]; then
+    nameApplication="nvim"
   else
-    gitTurnOn=1
+    nameApplication="$folder"
   fi
 
-  substep_info "Working Directory $PWD"
+  installSource "$folder" "$fn" "$nameApplication"
 
-  if [ "$command" == "update" ]; then
-    check-update 
-
-    status=$?
-    if [[ $status -eq 0 ]]; then 
-      get-step-block "$command" "$fn" "$gitTurnOn"
-
-    else
-      cd .. || exit
-      continue
-    fi
-
-  else
-
-    get-step-block "$command" "$fn" "$gitTurnOn"
-  fi
-
-  if [[ $command == "install" && "$(which "$1")" ]]; then
-    success "$1 has been $command"
-  else
-    error "$1 failed to be $command"
-  fi
   info "Moving to the next application..."
-
-  cd .. || exit
 done 
